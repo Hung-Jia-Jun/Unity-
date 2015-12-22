@@ -16,7 +16,7 @@ public class NPCFeedBackOnTrigger : MonoBehaviour {
     GameObject Currect = GameObject.Find("正確");
     GameObject False = GameObject.Find("錯誤");
     public float Timer = 0f;
-    public TEXT text
+    
 	void Start () {
         //StartCoroutine(AnimatorControl(0.1f));
        
