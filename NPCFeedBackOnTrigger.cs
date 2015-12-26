@@ -6,7 +6,7 @@ public class NPCFeedBackOnTrigger : MonoBehaviour {
 	public Animator Waiter;//服務生的動畫控制器
 	public bool PlayerTalkText;//玩家說話框
 	public bool WaiterTalkText;//服務生說話控制
-    GUIStyle btnStyle;//宣告上下一步按鈕style
+    public GUIStyle btnStyle;//宣告上下一步按鈕style
     public int PlayerSwitch=1;//每次要說的話都放在這邊
     public GameObject[] TextBox;
     public GameObject NextButton;//下一步按鈕是否顯示
@@ -18,7 +18,7 @@ public class NPCFeedBackOnTrigger : MonoBehaviour {
     public float Timer = 0f;
     
 	void Start () {
-        //StartCoroutine(AnimatorControl(0.1f));
+     
        
       
             TextBox[0] = GameObject.Find("NPCTalkText");
@@ -78,10 +78,15 @@ public class NPCFeedBackOnTrigger : MonoBehaviour {
 	}
 	void OnGUI()
 	{
-       // Event ButtonClick=Event.current;//讀取按鈕狀態
+     
         
      switch (PlayerSwitch)
         {
+            case 0:
+                {
+                    CloseAllTextBox();
+                    break;
+                }
             case 1:
                 {
                    
@@ -90,7 +95,6 @@ public class NPCFeedBackOnTrigger : MonoBehaviour {
                         ButtonUI(/*ShowNext*/true,/*ShowBack*/false,/*ShowExit*/false);//UIButton顯示設定
                     if (Timer > 3)
                     {
-                        
                         PlayerSwitch++;
                         Timer = 0f;
                     }
@@ -103,23 +107,12 @@ public class NPCFeedBackOnTrigger : MonoBehaviour {
                             TextBox[2].gameObject.SetActive(true);//系統提示:
                             TextBox[3].gameObject.SetActive(true);//下列句子按錄音鍵後，請說出
                             TextBox[5].gameObject.SetActive(true);//玩家:請問，還有空房嗎?
+                            ButtonUI(/*ShowNext*/false,/*ShowBack*/true,/*ShowExit*/false);//玩家可返回上一步
+                            CurrectFalseChoice();//透過語音辨識結果判定玩家是否進入下一個階段
 
-                    if (False == true)
-                    {
-                        ButtonUI(/*ShowNext*/true,/*ShowBack*/false,/*ShowExit*/false);//UIButton顯示設定，關閉下一步指示
-                    }
-                    else
-                    {
-                        // ButtonUI(/*ShowNext*/true,/*ShowBack*/true,/*ShowExit*/false);//UIButton顯示設定
-                        if (Timer > 2)//在這邊要等待兩秒的原因是因為想讓玩家看到辨識成功了
-                        {
-                            PlayerSwitch++;//直接進入下一句
-                            Timer = 0f;
-                        }
-                       
-                    }
-                          
-                         
+
+
+
                     break;
                 }
             case 3:
@@ -139,7 +132,9 @@ public class NPCFeedBackOnTrigger : MonoBehaviour {
                     TextBox[2].gameObject.SetActive(true);//系統提示:
                     TextBox[3].gameObject.SetActive(true);//下列句子按錄音鍵後，請說出
                     TextBox[7].gameObject.SetActive(true);//我要一間單人房
-                    ButtonUI(/*ShowNext*/true,/*ShowBack*/true,/*ShowExit*/false);//UIButton顯示設定
+                    ButtonUI(/*ShowNext*/false,/*ShowBack*/true,/*ShowExit*/false);//玩家可返回上一步
+                    CurrectFalseChoice();//透過語音辨識結果判定玩家是否進入下一個階段
+
                     break;
                 }
             case 5:
@@ -155,7 +150,9 @@ public class NPCFeedBackOnTrigger : MonoBehaviour {
                     TextBox[2].gameObject.SetActive(true);//系統提示:
                     TextBox[3].gameObject.SetActive(true);//下列句子按錄音鍵後，請說出
                     TextBox[9].gameObject.SetActive(true);//我住一晚明早退房
-                    ButtonUI(/*ShowNext*/true,/*ShowBack*/true,/*ShowExit*/false);//UIButton顯示設定
+                    ButtonUI(/*ShowNext*/false,/*ShowBack*/true,/*ShowExit*/false);//可返回上一步
+                    CurrectFalseChoice();//透過語音辨識結果判定玩家是否進入下一個階段
+
                     break;
                 }
             case 7:
@@ -179,8 +176,11 @@ public class NPCFeedBackOnTrigger : MonoBehaviour {
                     TextBox[2].gameObject.SetActive(true);//系統提示:
                     TextBox[3].gameObject.SetActive(true);//下列句子按錄音鍵後，請說出
                     TextBox[12].gameObject.SetActive(true);//我要一間大街風景房我要一間日月潭美景房(二擇一)
-                    ButtonUI(/*ShowNext*/true,/*ShowBack*/true,/*ShowExit*/false);//UIButton顯示設定
+                    ButtonUI(/*ShowNext*/false,/*ShowBack*/true,/*ShowExit*/true);//UIButton顯示設定
+                    CurrectFalseChoice();//透過語音辨識結果判定玩家是否進入下一個階段
                     break;
+                    
+
                 }
             case 10:
                 {
@@ -196,6 +196,7 @@ public class NPCFeedBackOnTrigger : MonoBehaviour {
                     TextBox[3].gameObject.SetActive(true);//下列句子按錄音鍵後，請說出
                     TextBox[14].gameObject.SetActive(true);//請問，有附早餐嗎?
                     ButtonUI(/*ShowNext*/true,/*ShowBack*/true,/*ShowExit*/false);//UIButton顯示設定
+                    CurrectFalseChoice();//透過語音辨識結果判定玩家是否進入下一個階段
                     break;
                 }
             case 12:
@@ -212,6 +213,7 @@ public class NPCFeedBackOnTrigger : MonoBehaviour {
                     TextBox[3].gameObject.SetActive(true);//下列句子按錄音鍵後，請說出
                     TextBox[16].gameObject.SetActive(true);//好的，請幫我辦理入住手續
                     ButtonUI(/*ShowNext*/true,/*ShowBack*/true,/*ShowExit*/false);//UIButton顯示設定
+                    CurrectFalseChoice();//透過語音辨識結果判定玩家是否進入下一個階段
                     break;
                 }
             case 14:
@@ -228,6 +230,7 @@ public class NPCFeedBackOnTrigger : MonoBehaviour {
                     TextBox[3].gameObject.SetActive(true);//下列句子按錄音鍵後，請說出
                     TextBox[18].gameObject.SetActive(true);//我姓為林，名為彼得。
                     ButtonUI(/*ShowNext*/true,/*ShowBack*/true,/*ShowExit*/false);//UIButton顯示設定
+                    CurrectFalseChoice();//透過語音辨識結果判定玩家是否進入下一個階段
                     break;
                 }
             case 16:
@@ -244,6 +247,7 @@ public class NPCFeedBackOnTrigger : MonoBehaviour {
                     TextBox[3].gameObject.SetActive(true);//下列句子按錄音鍵後，請說出
                     TextBox[20].gameObject.SetActive(true);//我這樣填寫有要更改的地方嗎? 
                     ButtonUI(/*ShowNext*/true,/*ShowBack*/true,/*ShowExit*/false);//UIButton顯示設定
+                    CurrectFalseChoice();//透過語音辨識結果判定玩家是否進入下一個階段
                     break;
                 }
             case 18:
@@ -259,7 +263,8 @@ public class NPCFeedBackOnTrigger : MonoBehaviour {
                     TextBox[2].gameObject.SetActive(true);//系統提示:
                     TextBox[3].gameObject.SetActive(true);//下列句子按錄音鍵後，請說出
                     TextBox[22].gameObject.SetActive(true);//我是德裔，所以有些特別。
-                    ButtonUI(/*ShowNext*/true,/*ShowBack*/true,/*ShowExit*/false);//UIButton顯示設定                   
+                    ButtonUI(/*ShowNext*/true,/*ShowBack*/true,/*ShowExit*/false);//UIButton顯示設定 
+                    CurrectFalseChoice();//透過語音辨識結果判定玩家是否進入下一個階段                  
                     break;
                 }
             case 20:
@@ -275,7 +280,8 @@ public class NPCFeedBackOnTrigger : MonoBehaviour {
                     TextBox[2].gameObject.SetActive(true);//系統提示:
                     TextBox[3].gameObject.SetActive(true);//下列句子按錄音鍵後，請說出
                     TextBox[24].gameObject.SetActive(true);//我的護照號碼是767741233。
-                    ButtonUI(/*ShowNext*/true,/*ShowBack*/true,/*ShowExit*/false);//UIButton顯示設定                    
+                    ButtonUI(/*ShowNext*/true,/*ShowBack*/true,/*ShowExit*/false);//UIButton顯示設定 
+                    CurrectFalseChoice();//透過語音辨識結果判定玩家是否進入下一個階段                   
                     break;
                 }
             case 22:
@@ -291,7 +297,8 @@ public class NPCFeedBackOnTrigger : MonoBehaviour {
                     TextBox[2].gameObject.SetActive(true);//系統提示:
                     TextBox[3].gameObject.SetActive(true);//下列句子按錄音鍵後，請說出
                     TextBox[26].gameObject.SetActive(true);//請問能讓我結帳嗎?
-                    ButtonUI(/*ShowNext*/true,/*ShowBack*/true,/*ShowExit*/false);//UIButton顯示設定                   
+                    ButtonUI(/*ShowNext*/true,/*ShowBack*/true,/*ShowExit*/false);//UIButton顯示設定   
+                    CurrectFalseChoice();//透過語音辨識結果判定玩家是否進入下一個階段                
                     break;
                 }
             case 24:
@@ -307,7 +314,8 @@ public class NPCFeedBackOnTrigger : MonoBehaviour {
                     TextBox[2].gameObject.SetActive(true);//系統提示:
                     TextBox[3].gameObject.SetActive(true);//下列句子按錄音鍵後，請說出
                     TextBox[28].gameObject.SetActive(true);//我要付現金，請你點一下。我要刷卡，請你刷這張。我要手機支付，請讓我掃QRCode。(三擇一)
-                    ButtonUI(/*ShowNext*/true,/*ShowBack*/true,/*ShowExit*/false);//UIButton顯示設定                    
+                    ButtonUI(/*ShowNext*/true,/*ShowBack*/true,/*ShowExit*/false);//UIButton顯示設定  
+                    CurrectFalseChoice();//透過語音辨識結果判定玩家是否進入下一個階段                  
                     break;
                 }
             case 26:
@@ -364,7 +372,7 @@ public class NPCFeedBackOnTrigger : MonoBehaviour {
     }
     void CloseAllTextBox()
     {
-        for (int i = 0; i <= 29;i++ )
+        for (int i = 0; i <= 30;i++ )
         {
 
             TextBox[i].gameObject.SetActive(false);//關閉所有對話框
@@ -392,49 +400,222 @@ public class NPCFeedBackOnTrigger : MonoBehaviour {
             }
         if (PlayerSwitch ==4)
             {
-
+            string ConstrastValue = "我要一間單人房";//宣告需與辨識結果比對的字串
+            if (speakInput == ConstrastValue)//如果辨識結果與需要辨識的字串相符合
+            {
+                Currect.SetActive(true);//顯示正確的Text字樣
+                False.SetActive(false);//並關閉錯誤的Text字樣
             }
+            else
+            {
+                False.SetActive(true);//顯示錯誤的Text字樣
+                Currect.SetActive(false);//關閉正確的Text字樣
+            }
+        }
         if (PlayerSwitch ==6)
             {
-
-            }
-        if (PlayerSwitch ==8)
+            string ConstrastValue = "我住一晚明早退房";//宣告需與辨識結果比對的字串
+            if (speakInput == ConstrastValue)//如果辨識結果與需要辨識的字串相符合
             {
-
+                Currect.SetActive(true);//顯示正確的Text字樣
+                False.SetActive(false);//並關閉錯誤的Text字樣
             }
-        if (PlayerSwitch ==10)
+            else
             {
-
+                False.SetActive(true);//顯示錯誤的Text字樣
+                Currect.SetActive(false);//關閉正確的Text字樣
             }
-        if (PlayerSwitch ==12)
+        }
+        if (PlayerSwitch ==9)
             {
+            string ConstrastValue = "我要一間大街風景房";//宣告需與辨識結果比對的字串
+            string ConstrastValue2 = "我要一間日月潭美景房";//辨識目標2
 
-            }
-        if (PlayerSwitch ==14)
+            if (speakInput == ConstrastValue)//如果辨識結果與需要辨識的字串相符合
             {
-
+                Currect.SetActive(true);//顯示正確的Text字樣
+                False.SetActive(false);//並關閉錯誤的Text字樣
             }
-        if (PlayerSwitch ==16)
+            else
             {
-
+                False.SetActive(true);//顯示錯誤的Text字樣
+                Currect.SetActive(false);//關閉正確的Text字樣
             }
-        if (PlayerSwitch ==18)
+
+            if (speakInput == ConstrastValue2)//如果辨識結果與需要辨識的字串2相符合
             {
-
+                Currect.SetActive(true);//顯示正確的Text字樣
+                False.SetActive(false);//並關閉錯誤的Text字樣
             }
-        if (PlayerSwitch ==20)
+            else
             {
-
+                False.SetActive(true);//顯示錯誤的Text字樣
+                Currect.SetActive(false);//關閉正確的Text字樣
             }
-        if (PlayerSwitch ==22)
+
+        }
+        if (PlayerSwitch ==11)
             {
-
-            }
-        if (PlayerSwitch ==24)
+            string ConstrastValue = "請問有附早餐嗎";//宣告需與辨識結果比對的字串
+            if (speakInput == ConstrastValue)//如果辨識結果與需要辨識的字串相符合
             {
-
+                Currect.SetActive(true);//顯示正確的Text字樣
+                False.SetActive(false);//並關閉錯誤的Text字樣
             }
+            else
+            {
+                False.SetActive(true);//顯示錯誤的Text字樣
+                Currect.SetActive(false);//關閉正確的Text字樣
+            }
+        }
+        if (PlayerSwitch ==13)
+            {
+            string ConstrastValue = "好的請幫我辦理入住手續";//宣告需與辨識結果比對的字串
+            if (speakInput == ConstrastValue)//如果辨識結果與需要辨識的字串相符合
+            {
+                Currect.SetActive(true);//顯示正確的Text字樣
+                False.SetActive(false);//並關閉錯誤的Text字樣
+            }
+            else
+            {
+                False.SetActive(true);//顯示錯誤的Text字樣
+                Currect.SetActive(false);//關閉正確的Text字樣
+            }
+        }
+        if (PlayerSwitch ==15)
+            {
+            string ConstrastValue = "我姓為林名為彼得";//宣告需與辨識結果比對的字串
+            if (speakInput == ConstrastValue)//如果辨識結果與需要辨識的字串相符合
+            {
+                Currect.SetActive(true);//顯示正確的Text字樣
+                False.SetActive(false);//並關閉錯誤的Text字樣
+            }
+            else
+            {
+                False.SetActive(true);//顯示錯誤的Text字樣
+                Currect.SetActive(false);//關閉正確的Text字樣
+            }
+        }
+        if (PlayerSwitch ==17)
+            {
+            string ConstrastValue = "我這樣填寫有要更改的地方嗎";//宣告需與辨識結果比對的字串
+            if (speakInput == ConstrastValue)//如果辨識結果與需要辨識的字串相符合
+            {
+                Currect.SetActive(true);//顯示正確的Text字樣
+                False.SetActive(false);//並關閉錯誤的Text字樣
+            }
+            else
+            {
+                False.SetActive(true);//顯示錯誤的Text字樣
+                Currect.SetActive(false);//關閉正確的Text字樣
+            }
+        }
+        if (PlayerSwitch ==19)
+            {
+            string ConstrastValue = "我是德裔所以有些特別";//宣告需與辨識結果比對的字串
+            if (speakInput == ConstrastValue)//如果辨識結果與需要辨識的字串相符合
+            {
+                Currect.SetActive(true);//顯示正確的Text字樣
+                False.SetActive(false);//並關閉錯誤的Text字樣
+            }
+            else
+            {
+                False.SetActive(true);//顯示錯誤的Text字樣
+                Currect.SetActive(false);//關閉正確的Text字樣
+            }
+        }
+        if (PlayerSwitch ==21)
+            {
+            string ConstrastValue = "我的護照號碼是767741233";//宣告需與辨識結果比對的字串
+            if (speakInput == ConstrastValue)//如果辨識結果與需要辨識的字串相符合
+            {
+                Currect.SetActive(true);//顯示正確的Text字樣
+                False.SetActive(false);//並關閉錯誤的Text字樣
+            }
+            else
+            {
+                False.SetActive(true);//顯示錯誤的Text字樣
+                Currect.SetActive(false);//關閉正確的Text字樣
+            }
+        }
+        if (PlayerSwitch ==23)
+            {
+            string ConstrastValue = "請問能讓我結帳嗎";//宣告需與辨識結果比對的字串
+            if (speakInput == ConstrastValue)//如果辨識結果與需要辨識的字串相符合
+            {
+                Currect.SetActive(true);//顯示正確的Text字樣
+                False.SetActive(false);//並關閉錯誤的Text字樣
+            }
+            else
+            {
+                False.SetActive(true);//顯示錯誤的Text字樣
+                Currect.SetActive(false);//關閉正確的Text字樣
+            }
+        }
+        if (PlayerSwitch ==25)
+            {
+            string ConstrastValue = "我要付現金請你點一下";//宣告需與辨識結果比對的字串
+            string ConstrastValue2 = "我要刷卡請你刷這張";
+            string ConstrastValue3 = "我要手機支付，請讓我掃QRCode";
+            /*********************************************需要辨識的字串1*************************************************************/
+            if (speakInput == ConstrastValue)//如果辨識結果與需要辨識的字串相符合
+            {
+                Currect.SetActive(true);//顯示正確的Text字樣
+                False.SetActive(false);//並關閉錯誤的Text字樣
+            }
+            else
+            {
+                False.SetActive(true);//顯示錯誤的Text字樣
+                Currect.SetActive(false);//關閉正確的Text字樣
+            }
+            /*********************************************需要辨識的字串1*************************************************************/
 
+
+            /*********************************************需要辨識的字串2*************************************************************/
+                            if (speakInput == ConstrastValue2)//如果辨識結果與需要辨識的字串2相符合
+                            {
+                                Currect.SetActive(true);//顯示正確的Text字樣
+                                False.SetActive(false);//並關閉錯誤的Text字樣
+                            }
+                            else
+                            {
+                                False.SetActive(true);//顯示錯誤的Text字樣
+                                Currect.SetActive(false);//關閉正確的Text字樣
+                            }
+            /*********************************************需要辨識的字串2*************************************************************/
+
+
+
+            /*********************************************需要辨識的字串3*************************************************************/
+                            if (speakInput == ConstrastValue3)//如果辨識結果與需要辨識的字串3相符合
+                            {
+                                Currect.SetActive(true);//顯示正確的Text字樣
+                                False.SetActive(false);//並關閉錯誤的Text字樣
+                            }
+                            else
+                            {
+                                False.SetActive(true);//顯示錯誤的Text字樣
+                                Currect.SetActive(false);//關閉正確的Text字樣
+                            }
+            /*********************************************需要辨識的字串3*************************************************************/
+        }
+
+
+    }
+    public void CurrectFalseChoice()//透過語音辨識結果判定玩家是否進入下一個階段
+    {
+        if (False == true)
+        {
+            ButtonUI(/*ShowNext*/false,/*ShowBack*/true,/*ShowExit*/false);//UIButton顯示設定，關閉下一步指示
+        }
+        if (Currect == true)
+        {
+            if (Timer > 2)//在這邊要等待兩秒的原因是因為想讓玩家看到辨識成功了
+            {
+                PlayerSwitch++;//直接進入下一句
+                Timer = 0f;
+            }
+        }
     }
 }
 
