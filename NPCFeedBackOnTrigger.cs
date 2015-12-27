@@ -84,16 +84,18 @@ public class NPCFeedBackOnTrigger : MonoBehaviour {
         {
             case 0:
                 {
+					Timer = 0;//設定計時器為0
                     CloseAllTextBox();
+                   
                     break;
                 }
             case 1:
                 {
-                   
+					
                         TextBox[0].gameObject.SetActive(true);//NPC Talk Box Open
                         TextBox[4].gameObject.SetActive(true);//歡迎光臨，您好，很高興為您服務！
                         ButtonUI(/*ShowNext*/true,/*ShowBack*/false,/*ShowExit*/false);//UIButton顯示設定
-                    if (Timer > 3)
+                    if (Timer > 5)
                     {
                         PlayerSwitch++;
                         Timer = 0f;
@@ -107,6 +109,7 @@ public class NPCFeedBackOnTrigger : MonoBehaviour {
                             TextBox[2].gameObject.SetActive(true);//系統提示:
                             TextBox[3].gameObject.SetActive(true);//下列句子按錄音鍵後，請說出
                             TextBox[5].gameObject.SetActive(true);//玩家:請問，還有空房嗎?
+							
                             ButtonUI(/*ShowNext*/false,/*ShowBack*/true,/*ShowExit*/false);//玩家可返回上一步
                             CurrectFalseChoice();//透過語音辨識結果判定玩家是否進入下一個階段
 
@@ -122,7 +125,11 @@ public class NPCFeedBackOnTrigger : MonoBehaviour {
                         TextBox[6].gameObject.SetActive(true);//NPC:有的。請問您要單人房或者雙人房?
                         ButtonUI(/*ShowNext*/true,/*ShowBack*/true,/*ShowExit*/false);//UIButton顯示設定
                    
-                 
+			if (Timer > 3)
+			{
+				PlayerSwitch++;
+				Timer = 0f;
+			}
                     break;
                 }
             case 4:
@@ -142,7 +149,12 @@ public class NPCFeedBackOnTrigger : MonoBehaviour {
                     TextBox[0].gameObject.SetActive(true);//Open NPC Talk box 
                     TextBox[8].gameObject.SetActive(true);//請問你要住幾天
                     ButtonUI(/*ShowNext*/true,/*ShowBack*/true,/*ShowExit*/false);//UIButton顯示設定
-                    break;
+					if (Timer > 3)
+					{
+						PlayerSwitch++;
+						Timer = 0f;
+					}
+			break;
                 }
             case 6:
                 {
@@ -374,10 +386,11 @@ public class NPCFeedBackOnTrigger : MonoBehaviour {
     {
         for (int i = 0; i <= 30;i++ )
         {
+			TextBox[i].gameObject.SetActive(false);
 
-            TextBox[i].gameObject.SetActive(false);//關閉所有對話框
-            Currect.SetActive(false);//關閉正確的Text字樣
-            False.SetActive(false);//關閉錯誤的Text字樣
+           // TextBox[i].gameObject.SetActive(false);//關閉所有對話框
+         //   Currect.SetActive(false);//關閉正確的Text字樣
+           // False.SetActive(false);//關閉錯誤的Text字樣
         }
       
     }
