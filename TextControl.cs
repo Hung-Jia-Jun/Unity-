@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
@@ -14,9 +15,11 @@ public class TextControl : MonoBehaviour {
 	public GameObject Chefman;//老闆的角色物件
 	public GameObject Customer;//顧客對話框標題
 	public GameObject CustomerTextObj;//顧客要講的話
-
+	/***************服務生**************************/
+	public GameObject Waiterman;//
 	public GameObject Waiter;//服務生對話框標題
 	public GameObject WaiterTextObj;//服務生要講的話
+	/***************服務生**************************/
 	public float Timer;
 	public GameObject NextButton;//下一步按鈕
 	public GameObject BackButton;//上一步按鈕
@@ -29,9 +32,10 @@ public class TextControl : MonoBehaviour {
 		Customer=GameObject.Find("CustomerTextObj");//顧客對話框標題
 		CustomerTextObj=GameObject.Find("CustomerTalk");//顧客要講的話
 
-		Waiterman=GameObject.Find("廚師");//
+		Waiterman=GameObject.Find("服務生");//服務生的角色物件
 		Waiter=GameObject.Find("WaiterTextObj");//服務生對話框標題
 		WaiterTextObj=GameObject.Find("WaiterTalk");//服務生要講的話
+
 		NextButton=GameObject.Find("NextButton");//下一步
 		BackButton=GameObject.Find("BackButton");//上一步
 		ExitButton=GameObject.Find("ExitButton");//離開
@@ -88,12 +92,10 @@ public class TextControl : MonoBehaviour {
 				ChefAni.SetBool ("PleaseFollowMe", true);//點頭鞠躬帶位true
 				Chef.GetComponentInChildren<Text> ().text = "老闆";
 				ChefTextObj.GetComponentInChildren<Text> ().text = "好的，請往這邊。";
-
 				if (Timer > 300) 
 				{
 					ChefAni.SetBool ("PleaseFollowMe", false);
 				}
-
 			break;
 			}
 		case 4://茱莉
@@ -137,7 +139,6 @@ public class TextControl : MonoBehaviour {
 				}
 			break;
 		}
-
 		case 8://彼得
 			{
 				Customer.gameObject.SetActive (true);//開啟彼得對話框
@@ -146,7 +147,6 @@ public class TextControl : MonoBehaviour {
 				CustomerTextObj.GetComponentInChildren<Text> ().text = "你要吃什麼?";
 			break;
 		}
-
 		case 9://茱莉
 			{
 				Customer.gameObject.SetActive (true);//開啟茱莉對話框
@@ -181,13 +181,13 @@ public class TextControl : MonoBehaviour {
 				if (Timer > 30) 
 				{
 					PetercstomerAni.SetBool ("ShakeHand", false	);//彼得揮手
-					gameObject.transform.rotation = Quaternion.Euler (0, 30, 0);					
+					Waiterman.transform.rotation = Quaternion.Euler (0, 180, 0);					
 				}
-			break;
-		}
+				break;
+			}
 
 
-		/*
+			/*
 		case 13://服務生
 			{
 			Waiter.gameObject.SetActive (true);//開啟服務生對話框
@@ -195,7 +195,6 @@ public class TextControl : MonoBehaviour {
 			Waiter.GetComponentInChildren<Text> ().text = "服務生";
 			WaiterTextObj.GetComponentInChildren<Text> ().text = "好的，為您確認一下餐點。\n一份A餐和一份C餐";
 			break;
-
 			}
 		case 14://服務生
 			{
@@ -254,7 +253,6 @@ public class TextControl : MonoBehaviour {
 			break;
 		}
 		//------------------------------舉手呼叫老闆&服務生靠近
-
 		case 21://服務生
 			{
 				Waiter.gameObject.SetActive (true);//開啟服務生對話框
@@ -318,7 +316,6 @@ public class TextControl : MonoBehaviour {
 				Waiter.GetComponentInChildren<Text> ().text = "服務生";
 				WaiterTextObj.GetComponentInChildren<Text>().text = "真的很抱歉，\n這是我們的疏失，\n我請廚師特別做了特餐，\n來補償你們。";
 				
-
 				break;
 		}
 		case 29://彼得
@@ -360,7 +357,6 @@ public class TextControl : MonoBehaviour {
 				Customer.GetComponentInChildren<Text> ().text = "彼得(需要辨識)";
 				CustomerTextObj.GetComponentInChildren<Text> ().text = "還需要點菜嗎";
 			break;}
-
 		case 34://茱莉
 			{
 				Customer.gameObject.SetActive (true);//開啟茱莉對話框
@@ -481,36 +477,35 @@ public class TextControl : MonoBehaviour {
 		WaiterTextObj.gameObject.SetActive(false);
 	}
 
-						void ButtonUI(bool ShowNext,bool ShowBack,bool ShowExit)//按鈕控制
-						{
-							NextButton.gameObject.SetActive(ShowNext);//顯示下一步按鈕
-							BackButton.gameObject.SetActive(ShowBack);//顯示上一步按鈕
-							ExitButton.gameObject.SetActive(ShowExit);//顯示退出按鈕
-						}
-						public void NextButtonClick()//下一步
-						{
-							
-							TalkSwitch++;//玩家對話狀態+1
-							CloseAllTextBox();//每次畫面刷新都先關閉所有物件
-						}
-						public void BackButtonClick()//上一步
-						{
-							TalkSwitch--;//玩家對話狀態-1
-							CloseAllTextBox();//每次畫面刷新都先關閉所有物件
-							
-							
-						}
-						public void ExitButtonClick()//退出
-						{
-							
-							TalkSwitch = 27;//離開鍵的狀態釋放區
-							CloseAllTextBox();//每次畫面刷新都先關閉所有物件
-						}
+	void ButtonUI(bool ShowNext,bool ShowBack,bool ShowExit)//按鈕控制
+	{
+		NextButton.gameObject.SetActive(ShowNext);//顯示下一步按鈕
+		BackButton.gameObject.SetActive(ShowBack);//顯示上一步按鈕
+		ExitButton.gameObject.SetActive(ShowExit);//顯示退出按鈕
+	}
+	public void NextButtonClick()//下一步
+	{
+
+		TalkSwitch++;//玩家對話狀態+1
+		CloseAllTextBox();//每次畫面刷新都先關閉所有物件
+	}
+	public void BackButtonClick()//上一步
+	{
+		TalkSwitch--;//玩家對話狀態-1
+		CloseAllTextBox();//每次畫面刷新都先關閉所有物件
+
+
+	}
+	public void ExitButtonClick()//退出
+	{
+
+		TalkSwitch = 27;//離開鍵的狀態釋放區
+		CloseAllTextBox();//每次畫面刷新都先關閉所有物件
+	}
 
 
 	public void resettime()//計時器歸零
 	{
-			Timer=0.0f;
+		Timer=0.0f;
 	}
 }
-
