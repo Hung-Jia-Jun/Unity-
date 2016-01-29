@@ -4,6 +4,8 @@ using System.Collections;
 using UnityEngine.UI;
 public class TextControl : MonoBehaviour {
 	public int TalkSwitch;//說話狀態
+	public TextAsset Atxt;//導入Txt
+	public string TxtRecognize;
 	/*************角色動畫藍圖**********************/
 	public Animator WaiterAni;//服務生動畫藍圖
 	public Animator ChefAni;//老闆動畫藍圖
@@ -177,14 +179,24 @@ public class TextControl : MonoBehaviour {
 				CustomerTextObj.gameObject.SetActive (true);//開啟要講話的物件
 				Customer.GetComponentInChildren<Text> ().text = "彼得(需要辨識)";
 				CustomerTextObj.GetComponentInChildren<Text> ().text = "服務生，請幫我點餐";
-				PetercstomerAni.SetBool ("ShakeHand", true);//彼得揮手
-				if (Timer > 30) 
-				{
-					PetercstomerAni.SetBool ("ShakeHand", false	);//彼得揮手
-					Waiterman.transform.rotation = Quaternion.Euler (0, 180, 0);					
-				}
-				break;
-			}
+				TxtRecognize = Atxt.text;
+					if (TxtRecognize=="點餐")
+					{
+						PetercstomerAni.SetBool ("ShakeHand", true);//彼得揮手
+						WaiterAni.SetBool("Walk",true);//服務生走過來
+						if (Timer > 50) 
+						{
+							WaiterAni.SetBool("Walk",false);//服務生行走停止
+							Waiterman.transform.rotation = Quaternion.Euler (0, 270, 0);
+							WaiterAni.SetBool("EatSome",true);//服務生點餐
+						}
+						if (Timer > 30) 
+						{
+							PetercstomerAni.SetBool ("ShakeHand", false	);//彼得揮手
+
+
+						}
+					}
 
 
 			/*
